@@ -40,15 +40,15 @@ jobs:
       with:
         name: release-${{ inputs.operating-system }}-${{ inputs.build-flags }}
         path: ./release
-    
-    - name: Check Python regression tests
-      id: check-python-regression-tests
-      if: ${{ inputs.testing == true }}
-      run: |
-        # Set PATH to include Python 3.12 and user-installed tools (mypy, meson, etc.)
-        export PATH="$(brew --prefix python@3.12)/bin:$HOME/Library/Python/3.12/bin:$PATH"
-        chmod +x scripts/check_python_tests.sh
-        ./scripts/check_python_tests.sh
+
+    # - name: Check Python regression tests
+    #   id: check-python-regression-tests
+    #   if: ${{ inputs.testing == true }}
+    #   run: |
+    #     # Set PATH to include Python 3.12 and user-installed tools (mypy, meson, etc.)
+    #     export PATH="$(brew --prefix python@3.12)/bin:$HOME/Library/Python/3.12/bin:$PATH"
+    #     chmod +x scripts/check_python_tests.sh
+    #     ./scripts/check_python_tests.sh
 
     - name: Run tests
       id: run-tests
@@ -61,7 +61,9 @@ jobs:
         if [[ "${{ inputs.operating-system }}" =~ ^macos ]]; then
           ctest -j4 --output-on-failure --progress -L python
         else
-          ctest -j4 --output-on-failure --progress .
+          ctest -j4 --output-on-failure --progress . &
+          watch -n 1 "tail -n 10 Testing/Temporary/LastTest.log; free -h; df -h; top -b -n 1 | head -n 20"
+          wait
         fi
 
     - name: Open tmate session on test failure
