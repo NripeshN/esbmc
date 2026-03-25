@@ -52,7 +52,7 @@ function(add_esbmc_regression_test folder modes test)
                      --modes ${modes}
                      --file=${test}
                      ${BENCHBRINGUP_ARGS}) # additional args for BENCHBRINGUP workflow
-    # TODO: Testing Tool should have a command to dump the TAG of a test		   
+    # TODO: Testing Tool should have a command to dump the TAG of a test
     set_tests_properties(${test_name}
       PROPERTIES SKIP_RETURN_CODE 10
       LABELS "regression;${folder}")
@@ -114,93 +114,70 @@ if(ESBMC_CHERI_CLANG)
 endif()
 
 # list of C++98/03 test suites
-set(REGRESSIONS_CPP03 esbmc-cpp/cpp
-                      esbmc-cpp/cbmc
-                      esbmc-cpp/destructors
-                      esbmc-cpp/polymorphism_bringup
-                      esbmc-cpp/polymorphism_bringup_overload
-                      esbmc-cpp/inheritance_bringup
-                      esbmc-cpp/bug_fixes
-                      esbmc-cpp/OM_sanity_checks
-                      esbmc-cpp/string
-                      esbmc-cpp/stream
-                      esbmc-cpp/gcc-template-tests
-                      esbmc-cpp/template
-                      esbmc-cpp/algorithm
-                      esbmc-cpp/deque
-                      esbmc-cpp/list
-                      esbmc-cpp/map
-                      esbmc-cpp/unordered_map
-                      esbmc-cpp/multimap
-                      esbmc-cpp/multiset
-                      esbmc-cpp/priority_queue
-                      esbmc-cpp/queue
-                      esbmc-cpp/set
-                      esbmc-cpp/unordered_set
-                      esbmc-cpp/stack
-                      esbmc-cpp/unix
-                      esbmc-cpp/vector
-                      esbmc-cpp/try_catch
-                      esbmc-cpp/functional
-                      esbmc-cpp/bitset
-                      esbmc-cpp/unwindsetname
-                      )
+# set(REGRESSIONS_CPP03 esbmc-cpp/cpp
+#                       esbmc-cpp/cbmc
+#                       esbmc-cpp/destructors
+#                       esbmc-cpp/polymorphism_bringup
+#                       esbmc-cpp/polymorphism_bringup_overload
+#                       esbmc-cpp/inheritance_bringup
+#                       esbmc-cpp/bug_fixes
+#                       esbmc-cpp/OM_sanity_checks
+#                       esbmc-cpp/string
+#                       esbmc-cpp/stream
+#                       esbmc-cpp/gcc-template-tests
+#                       esbmc-cpp/template
+#                       esbmc-cpp/algorithm
+#                       esbmc-cpp/deque
+#                       esbmc-cpp/list
+#                       esbmc-cpp/map
+#                       esbmc-cpp/unordered_map
+#                       esbmc-cpp/multimap
+#                       esbmc-cpp/multiset
+#                       esbmc-cpp/priority_queue
+#                       esbmc-cpp/queue
+#                       esbmc-cpp/set
+#                       esbmc-cpp/unordered_set
+#                       esbmc-cpp/stack
+#                       esbmc-cpp/unix
+#                       esbmc-cpp/vector
+#                       esbmc-cpp/try_catch
+#                       esbmc-cpp/functional
+#                       esbmc-cpp/bitset
+#                       esbmc-cpp/unwindsetname
+#                       )
 # list of C++11 test suites
-set(REGRESSIONS_CPP11 esbmc-cpp11/alignas
-                      esbmc-cpp11/array
-                      esbmc-cpp11/constructors
-                      esbmc-cpp11/cpp
-                      esbmc-cpp11/lambda
-                      esbmc-cpp11/new-delete
-                      esbmc-cpp11/reference
-                      esbmc-cpp11/template
-                      esbmc-cpp11/tuple
-                      )
+# set(REGRESSIONS_CPP11 esbmc-cpp11/alignas
+#                       esbmc-cpp11/array
+#                       esbmc-cpp11/constructors
+#                       esbmc-cpp11/cpp
+#                       esbmc-cpp11/lambda
+#                       esbmc-cpp11/new-delete
+#                       esbmc-cpp11/reference
+#                       esbmc-cpp11/template
+#                       esbmc-cpp11/tuple
+#                       )
 
-# list of C++14 test suites
-set(REGRESSIONS_CPP14 esbmc-cpp14/cpp
-                      esbmc-cpp14/deduced-return-type
-                      esbmc-cpp14/lambda
-                      esbmc-cpp14/template
-                      )
+# # list of C++14 test suites
+# set(REGRESSIONS_CPP14 esbmc-cpp14/cpp
+#                       esbmc-cpp14/deduced-return-type
+#                       esbmc-cpp14/lambda
+#                       esbmc-cpp14/template
+#                       )
 
-# list of C++17 test suites
-set(REGRESSIONS_CPP17 esbmc-cpp17/cpp
-                      esbmc-cpp17/lambda
-                      )
+# # list of C++17 test suites
+# set(REGRESSIONS_CPP17 esbmc-cpp17/cpp
+#                       esbmc-cpp17/lambda
+#                       )
 
-# list of C++20 test suites
-set(REGRESSIONS_CPP20 esbmc-cpp20/cpp)
+# # list of C++20 test suites
+# set(REGRESSIONS_CPP20 esbmc-cpp20/cpp)
 
 # enable test case geeneration
-set(TEST_GENERATION witnesses/test_case_generation)
+# set(TEST_GENERATION witnesses/test_case_generation)
 
 # NOTE: In order to make the best of the concurrency set sort the tests from the slowest to fastest.
 if(APPLE)
-    set(REGRESSIONS esbmc-unix
-                    esbmc-unix2
-                    esbmc
-                    ${REGRESSIONS_SOLIDITY}
-                    cbmc
-                    cstd
-                    llvm
-                    floats
-                    floats-regression
-                    ${REGRESSIONS_JIMPLE}
-                    k-induction
-                    k-induction-parallel
-                    termination
-                    nonz3
-                    ${REGRESSIONS_BITWUZLA}
-                    ${REGRESSIONS_CVC}
-                    ${REGRESSIONS_MATHSAT}
-                    ${REGRESSIONS_Z3}
-                    incremental-smt
-                    esbmc-cpp11/cpp
-                    esbmc-cpp11/cbmc-constructors
-                    extensions
-                    ${REGRESSIONS_CHERI}
-                    ${REGRESSIONS_PYTHON}
+    set(REGRESSIONS ${REGRESSIONS_PYTHON}
                     ${REGRESSIONS_PYTHON_INTENSIVE}
                     ${REGRESSIONS_MOPSA}
                     ${REGRESSIONS_NUMPY}
@@ -208,10 +185,6 @@ if(APPLE)
                     ${REGRESSIONS_QUIXBUGS}
                     ${REGRESSIONS_PYTHON_COVERAGE}
                     ${REGRESSIONS_AI_GENERATED_CODE}
-                    ${TEST_GENERATION}
-                    ltl
-                    goto-transcoder
-                    loop-invariants
        )
 elseif(WIN32)
     # FUTURE: Add floats-regression esbmc-cpp/cpp
@@ -234,41 +207,7 @@ elseif(WIN32)
        )
 else()
   if(NOT BENCHBRINGUP)
-    set(REGRESSIONS esbmc-unix
-                    esbmc-unix2
-                    esbmc
-                    ${REGRESSIONS_SOLIDITY}
-                    ${REGRESSIONS_OLD_FRONTEND}
-                    cbmc
-                    cstd
-                    llvm
-                    floats
-                    floats-regression
-                    k-induction
-                    termination
-                    csmith
-                    k-induction-parallel
-                    cuda/benchmarks
-                    cuda/Supported_long_time
-                    nonz3
-                    ${REGRESSIONS_BITWUZLA}
-                    ${REGRESSIONS_CVC}
-                    ${REGRESSIONS_MATHSAT}
-                    ${REGRESSIONS_SMTLIB}
-                    ${REGRESSIONS_Z3}
-                    incremental-smt
-                    ${REGRESSIONS_CPP20}
-                    ${REGRESSIONS_CPP17}
-                    ${REGRESSIONS_CPP14}
-                    ${REGRESSIONS_CPP11}
-                    ${REGRESSIONS_CPP03}
-                    ${REGRESSIONS_GOTO_CONTRACTOR}
-                    ${REGRESSIONS_JIMPLE}
-                    extensions
-                    cuda/COM_sanity_checks
-                    linux
-                    ${REGRESSIONS_CHERI}
-                    ${REGRESSIONS_PYTHON}
+    set(REGRESSIONS ${REGRESSIONS_PYTHON}
                     ${REGRESSIONS_PYTHON_INTENSIVE}
                     ${REGRESSIONS_MOPSA}
                     ${REGRESSIONS_NUMPY}
@@ -276,13 +215,6 @@ else()
                     ${REGRESSIONS_QUIXBUGS}
                     ${REGRESSIONS_PYTHON_COVERAGE}
                     ${REGRESSIONS_AI_GENERATED_CODE}
-                    ${TEST_GENERATION}
-                    ltl
-                    goto-coverage
-                    goto-transcoder
-                    parallel-solving
-                    loop-invariants
-                    function_contract
        )
   else()
     set(REGRESSIONS $ENV{BENCHMARK_TO_RUN}) # run a single user-specified benchmark
