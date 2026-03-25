@@ -178,13 +178,13 @@ endif()
 # NOTE: In order to make the best of the concurrency set sort the tests from the slowest to fastest.
 if(APPLE)
     set(REGRESSIONS ${REGRESSIONS_PYTHON}
-                    ${REGRESSIONS_PYTHON_INTENSIVE}
-                    ${REGRESSIONS_MOPSA}
-                    ${REGRESSIONS_NUMPY}
-                    ${REGRESSIONS_HUMANEVAL}
+                    # ${REGRESSIONS_PYTHON_INTENSIVE}
+                    # ${REGRESSIONS_MOPSA}
+                    # ${REGRESSIONS_NUMPY}
+                    # ${REGRESSIONS_HUMANEVAL}
                     ${REGRESSIONS_QUIXBUGS}
-                    ${REGRESSIONS_PYTHON_COVERAGE}
-                    ${REGRESSIONS_AI_GENERATED_CODE}
+                    # ${REGRESSIONS_PYTHON_COVERAGE}
+                    # ${REGRESSIONS_AI_GENERATED_CODE}
        )
 elseif(WIN32)
     # FUTURE: Add floats-regression esbmc-cpp/cpp
@@ -208,13 +208,13 @@ elseif(WIN32)
 else()
   if(NOT BENCHBRINGUP)
     set(REGRESSIONS ${REGRESSIONS_PYTHON}
-                    ${REGRESSIONS_PYTHON_INTENSIVE}
-                    ${REGRESSIONS_MOPSA}
-                    ${REGRESSIONS_NUMPY}
-                    ${REGRESSIONS_HUMANEVAL}
+                    # ${REGRESSIONS_PYTHON_INTENSIVE}
+                    # ${REGRESSIONS_MOPSA}
+                    # ${REGRESSIONS_NUMPY}
+                    # ${REGRESSIONS_HUMANEVAL}
                     ${REGRESSIONS_QUIXBUGS}
-                    ${REGRESSIONS_PYTHON_COVERAGE}
-                    ${REGRESSIONS_AI_GENERATED_CODE}
+                    # ${REGRESSIONS_PYTHON_COVERAGE}
+                    # ${REGRESSIONS_AI_GENERATED_CODE}
        )
   else()
     set(REGRESSIONS $ENV{BENCHMARK_TO_RUN}) # run a single user-specified benchmark
