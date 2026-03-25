@@ -62,8 +62,15 @@ jobs:
           ctest -j4 --output-on-failure --progress -L python
         else
           ctest -j4 --output-on-failure --progress . &
-          watch -n 1 "tail -n 10 Testing/Temporary/LastTest.log; free -h; df -h; top -b -n 1 | head -n 20"
-          wait
+          ctest_pid=$!
+          while kill -0 "$ctest_pid" 2>/dev/null; do
+            tail -n 10 Testing/Temporary/LastTest.log || true
+            free -h || true
+            df -h || true
+            top -b -n 1 | head -n 20 || true
+            sleep 1
+          done
+          wait "$ctest_pid"
         fi
 
     - name: Open tmate session on test failure
