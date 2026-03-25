@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import unittest
+from unittest.mock import mock_open, patch
+import testing_tool
 from testing_tool import *
 
 
@@ -145,6 +147,41 @@ class ToolTest2(CTest4):
                     '--overflow-check',
                     '--unwind', '3', '--32', './nonz3/29_exStbHwAcc/main.c']
         self.assertEqual(argument_list, expected, str(argument_list))
+
+
+class OomScoreAdjustmentTest(unittest.TestCase):
+    def test_sets_oom_score_adj_on_linux(self):
+        mocked_open = mock_open()
+
+        with patch.object(testing_tool.sys, "platform", "linux"), patch(
+            "builtins.open", mocked_open
+        ):
+            testing_tool.set_low_oom_priority()
+
+        mocked_open.assert_called_once_with(
+            testing_tool.OOM_SCORE_ADJ_PATH, "w", encoding="utf-8"
+        )
+        mocked_open().write.assert_called_once_with(
+            f"{testing_tool.OOM_SCORE_ADJ_KILL_FIRST}\n"
+        )
+
+    def test_skips_oom_score_adj_on_non_linux(self):
+        mocked_open = mock_open()
+
+        with patch.object(testing_tool.sys, "platform", "darwin"), patch(
+            "builtins.open", mocked_open
+        ):
+            testing_tool.set_low_oom_priority()
+
+        mocked_open.assert_not_called()
+
+    def test_warns_when_oom_score_adj_cannot_be_updated(self):
+        with patch.object(testing_tool.sys, "platform", "linux"), patch(
+            "builtins.open", side_effect=OSError("permission denied")
+        ), patch("testing_tool.print") as mocked_print:
+            testing_tool.set_low_oom_priority()
+
+        mocked_print.assert_called_once()
 
 
 if __name__ == '__main__':

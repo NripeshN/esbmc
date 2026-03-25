@@ -42,6 +42,7 @@ jobs:
         path: ./release
     
     - name: Check Python regression tests
+      id: check-python-regression-tests
       if: ${{ inputs.testing == true }}
       run: |
         # Set PATH to include Python 3.12 and user-installed tools (mypy, meson, etc.)
@@ -50,6 +51,7 @@ jobs:
         ./scripts/check_python_tests.sh
 
     - name: Run tests
+      id: run-tests
       if: ${{ inputs.testing == true }}
       run: |
         # Set PATH to include Python 3.12 and user-installed tools (mypy, meson, etc.)
@@ -61,3 +63,7 @@ jobs:
         else
           ctest -j4 --output-on-failure --progress .
         fi
+
+    - name: Open tmate session on test failure
+      if: ${{ failure() && inputs.testing == true && (steps.check-python-regression-tests.outcome == 'failure' || steps.run-tests.outcome == 'failure') }}
+      uses: mxschmitt/action-tmate@v3

@@ -41,6 +41,23 @@ FAIL_MODES = ["KNOWNBUG"]
 
 # Bring up a single benchmark
 BENCHMARK_BRINGUP = False
+OOM_SCORE_ADJ_PATH = "/proc/self/oom_score_adj"
+OOM_SCORE_ADJ_KILL_FIRST = 1000
+
+
+def set_low_oom_priority():
+    """Ask the Linux OOM killer to prefer this process tree as a victim."""
+    if not sys.platform.startswith("linux"):
+        return
+
+    try:
+        with open(OOM_SCORE_ADJ_PATH, "w", encoding="utf-8") as oom_score_adj_file:
+            oom_score_adj_file.write(f"{OOM_SCORE_ADJ_KILL_FIRST}\n")
+    except OSError as exc:
+        print(
+            f"WARNING: failed to set {OOM_SCORE_ADJ_PATH} to {OOM_SCORE_ADJ_KILL_FIRST}: {exc}",
+            file=sys.stderr,
+        )
 
 
 class TestCase:
@@ -319,6 +336,7 @@ def _arg_parsing():
 
 
 def main():
+    set_low_oom_priority()
     _arg_parsing()
     suite = unittest.TestLoader().loadTestsFromTestCase(RegressionBase)
     # run all test cases
